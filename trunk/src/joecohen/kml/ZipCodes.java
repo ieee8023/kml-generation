@@ -1,12 +1,6 @@
 package joecohen.kml;
 
-import java.io.ByteArrayInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 import com.csvreader.CsvReader;
 
 public class ZipCodes {
