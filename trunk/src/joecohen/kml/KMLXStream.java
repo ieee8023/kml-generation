@@ -1,5 +1,13 @@
 package joecohen.kml;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
 import com.thoughtworks.xstream.XStream;
 
 public class KMLXStream {
@@ -41,4 +49,42 @@ public class KMLXStream {
 		
 		return null;
 	}
+	
+	public void toKMLFile(Kml kmlFile, String filename, boolean kml, boolean kmz) throws IOException{
+		
+		if (kml){
+			/*
+			 * Write just the .kml file
+			 */
+			FileWriter fr = new FileWriter(filename + ".kml");
+			fr.append(this.toKML(kmlFile));
+			fr.flush();
+		}
+		
+		
+		if (kmz){
+			/*
+			 * Write a .kmz file with a kml file in it
+			 */
+			String data = this.toKML(kmlFile);
+			byte[] buf = new byte[1024];
+			ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(filename + ".kmz"));
+			ZipEntry ze= new ZipEntry(filename + ".kml");
+			zos.putNextEntry(ze);
+			
+			InputStream in = new ByteArrayInputStream(data.getBytes("UTF-8"));
+			int len;
+	        while ((len = in.read(buf)) > 0) {
+	        	zos.write(buf, 0, len);
+	        }
+			zos.closeEntry();
+			zos.finish();
+			zos.flush();
+			zos.close();
+			// end writing kmz
+		}
+		
+		
+	}
+	
 }

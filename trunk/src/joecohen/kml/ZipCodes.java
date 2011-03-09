@@ -60,32 +60,7 @@ public class ZipCodes {
 		
 		KMLXStream x = new KMLXStream();
 		
-		/*
-		 * Write just the .kml file
-		 */
-		FileWriter fr = new FileWriter("zips.kml");
-		fr.append(x.toKML(kml));
-		fr.flush();
-		
-		/*
-		 * Write a .kmz file with a kml file in it
-		 */
-		String data = x.toKML(kml);
-		byte[] buf = new byte[1024];
-		ZipOutputStream zos = new ZipOutputStream(new FileOutputStream("zips.kmz"));
-		ZipEntry ze= new ZipEntry("zips.kml");
-		zos.putNextEntry(ze);
-		
-		InputStream in = new ByteArrayInputStream(data.getBytes("UTF-8"));
-		int len;
-        while ((len = in.read(buf)) > 0) {
-        	zos.write(buf, 0, len);
-        }
-		zos.closeEntry();
-		zos.finish();
-		zos.flush();
-		zos.close();
-		// end writing kmz
+		x.toKMLFile(kml, "zips", true, true);
 	}
 
 }
