@@ -1,0 +1,1 @@
+final product might use XStream
